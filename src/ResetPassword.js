@@ -1,8 +1,9 @@
 import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useSearchParams } from "react-router-dom";
 
 function ResetPassword() {
-  const code = useParams();
+  const [, code] = window.location.search.split("code=");
+
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [password, setPassword] = useState("");
@@ -63,14 +64,14 @@ function ResetPassword() {
             placeholder="Mot de passe"
             className="border-2 rounded-lg w-full h-12 px-4"
             value={password}
-            onChange={setPassword}
+            onChange={(e) => setPassword(e.target.value)}
           />
           <input
             type="password"
             placeholder="Mot de passe, encore"
             className="border-2 rounded-lg w-full h-12 px-4"
             value={passwordConfirmation}
-            onChange={setPasswordConfirmation}
+            onChange={(e) => setPasswordConfirmation(e.target.value)}
           />
           {error && <p className="text-red-600">{error}</p>}
           <button
