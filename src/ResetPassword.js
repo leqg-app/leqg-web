@@ -1,5 +1,10 @@
 import { useState } from "react";
-import { useParams, useSearchParams } from "react-router-dom";
+
+const errors = {
+  "Auth.form.error.code.provide":
+    "Ce lien de mot de passe oublié est expiré ou invalide.",
+  "Auth.form.error.password.matching": "Les mots de passe sont différents",
+};
 
 function ResetPassword() {
   const [, code] = window.location.search.split("code=");
@@ -14,22 +19,26 @@ function ResetPassword() {
       setError("Les mots de passe sont incomplets ou différents");
       return;
     }
+    const body = new FormData();
+    body.set("code", code);
+    body.set("password", password);
+    body.set("passwordConfirmation", passwordConfirmation);
     fetch(`https://api.leqg.app/auth/reset-password`, {
       method: "POST",
-      body: JSON.stringify({
-        code,
-        password,
-        passwordConfirmation,
-      }),
-      header: {
-        "Content-Type": "application/json",
-      },
+      body,
     })
-      .then(() => {
+      .then(async (res) => {
+        if (!res.ok) {
+          throw await res.json();
+        }
         setSuccess("Le mot de passe a bien été réinitialisé.");
       })
-      .catch((error) => {
-        setError("An error occurred: ", error.response);
+      .catch(({ data }) => {
+        const error = data[0].messages[0].id;
+        setError(
+          errors[error] ||
+            "Erreur inconnue, nous avons été informés. Merci de réessayer plus tard"
+        );
       });
   };
 
