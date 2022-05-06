@@ -19,13 +19,16 @@ function ResetPassword() {
       setError("Les mots de passe sont incomplets ou différents");
       return;
     }
-    const body = new FormData();
-    body.set("code", code);
-    body.set("password", password);
-    body.set("passwordConfirmation", passwordConfirmation);
     fetch(`https://api.leqg.app/auth/reset-password`, {
       method: "POST",
-      body,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: {
+        code,
+        password,
+        passwordConfirmation,
+      },
     })
       .then(async (res) => {
         if (!res.ok) {
