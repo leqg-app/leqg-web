@@ -24,11 +24,11 @@ function ResetPassword() {
       headers: {
         "Content-Type": "application/json",
       },
-      body: {
+      body: JSON.stringify({
         code,
         password,
         passwordConfirmation,
-      },
+      }),
     })
       .then(async (res) => {
         if (!res.ok) {
