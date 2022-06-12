@@ -10,14 +10,29 @@ import downloadPlayStore from "./images/download-playstore.png";
 
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_TOKEN;
 
+function decompressStore(compressedStore) {
+  const [id, name, address, longitude, latitude, price, specialPrice] =
+    compressedStore;
+  return {
+    id,
+    name,
+    address,
+    longitude,
+    latitude,
+    price,
+    specialPrice,
+  };
+}
+
 function Map() {
   const mapContainer = useRef(null);
   const map = useRef(null);
   const [stores, setStores] = useState([]);
 
   const fetchData = async () => {
-    const res = await fetch("https://api.leqg.app/v1/stores");
-    setStores(await res.json());
+    const res = await fetch("https://api.leqg.app/v2/stores");
+    const stores = await res.json();
+    setStores(stores.map(decompressStore));
   };
 
   const storesSource = useMemo(
@@ -27,7 +42,7 @@ function Map() {
         type: "Feature",
         geometry: {
           type: "Point",
-          coordinates: [store.lng, store.lat],
+          coordinates: [store.longitude, store.latitude],
         },
         properties: store,
       })),
