@@ -50,7 +50,9 @@ function Map() {
     [stores]
   );
 
-  useEffect(() => fetchData(), []);
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   useEffect(() => {
     if (map.current) {
