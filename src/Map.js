@@ -81,9 +81,37 @@ function Map() {
         if (error) {
           throw error;
         }
+        map.current.addLayer({
+          id: "storeName",
+          type: "symbol",
+          source: "stores",
+          layout: {
+            "text-field": ["get", "name"],
+            "text-justify": "auto",
+            "text-optional": true,
+            "text-variable-anchor": [
+              "left",
+              "right",
+              "top",
+              "bottom",
+              "top-left",
+              "top-right",
+              "bottom-left",
+              "bottom-right",
+            ],
+            "text-radial-offset": 1.1,
+            "text-size": 12,
+          },
+          paint: {
+            "text-color": "#000",
+            "text-halo-color": "#fff",
+            "text-halo-width": 2,
+            "text-translate": [0, -11],
+          },
+        });
         map.current.addImage("tooltip", image);
         map.current.addLayer({
-          id: "storesPrices",
+          id: "storePrice",
           type: "symbol",
           source: "stores",
           layout: {
@@ -106,10 +134,10 @@ function Map() {
             "text-translate": [0, -13],
           },
         });
-        map.current.on("mouseenter", "storesPrices", () => {
+        map.current.on("mouseenter", "storePrice", () => {
           map.current.getCanvas().style.cursor = "pointer";
         });
-        map.current.on("mouseleave", "storesPrices", () => {
+        map.current.on("mouseleave", "storePrice", () => {
           map.current.getCanvas().style.cursor = "";
         });
       });
