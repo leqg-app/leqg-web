@@ -32,7 +32,7 @@ function Map() {
   const fetchData = async () => {
     const res = await fetch("https://api.leqg.app/v2/stores");
     const stores = await res.json();
-    setStores(stores.map(decompressStore));
+    setStores(stores.map(decompressStore).filter((store) => store.price));
   };
 
   const storesSource = useMemo(
