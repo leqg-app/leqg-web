@@ -40,14 +40,27 @@ function Mapbox() {
   }, [map]);
 
   useEffect(() => {
-    if (!stores.length) {
+    if (!stores.length || !map.current) {
       return;
     }
-    map.current.on("load", function () {
+
+    const addStoreLayersToMap = () => {
+      // Remove existing layers and source if they exist
+      if (map.current.getLayer("storePrice")) {
+        map.current.removeLayer("storePrice");
+      }
+      if (map.current.getLayer("storeName")) {
+        map.current.removeLayer("storeName");
+      }
+      if (map.current.getSource("stores")) {
+        map.current.removeSource("stores");
+      }
+
       map.current.addSource("stores", {
         type: "geojson",
         data: storesSource,
       });
+
       map.current.loadImage("/tooltip-50.png", (error, image) => {
         if (error) {
           throw error;
@@ -80,7 +93,11 @@ function Mapbox() {
             "text-translate": [0, -11],
           },
         });
-        map.current.addImage("tooltip", image);
+        
+        if (!map.current.hasImage("tooltip")) {
+          map.current.addImage("tooltip", image);
+        }
+        
         map.current.addLayer({
           id: "storePrice",
           type: "symbol",
@@ -112,8 +129,16 @@ function Mapbox() {
           map.current.getCanvas().style.cursor = "";
         });
       });
-    });
-  }, [stores]); // eslint-disable-line react-hooks/exhaustive-deps
+    };
+
+    // Check if map is already loaded
+    if (map.current.isStyleLoaded()) {
+      addStoreLayersToMap();
+    } else {
+      // Wait for map to load
+      map.current.once("load", addStoreLayersToMap);
+    }
+  }, [stores, storesSource]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return <div ref={mapContainer} className="map-container" />;
 }
