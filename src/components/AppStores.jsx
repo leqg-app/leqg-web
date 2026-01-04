@@ -1,8 +1,7 @@
 import React from "react";
-
-import logo from "./images/logo.png";
-import downloadAppStore from "./images/download-appstore.png";
-import downloadPlayStore from "./images/download-playstore.png";
+import logo from "../assets/logo.png";
+import downloadAppStore from "../assets/download-appstore.png";
+import downloadPlayStore from "../assets/download-playstore.png";
 
 function AppStores() {
   return (

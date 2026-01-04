@@ -1,6 +1,5 @@
 import { useContext, useEffect, useMemo, useState, useRef } from "react";
-
-import { StoreContext } from "./Map";
+import { StoreContext } from "../contexts/StoreContext";
 
 const SearchBar = () => {
   const wrapper = useRef();

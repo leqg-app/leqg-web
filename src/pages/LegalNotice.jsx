@@ -1,6 +1,6 @@
 import * as React from "react";
 
-const LegalTerms = () => {
+const LegalNotice = () => {
   return (
     <div className="container mx-auto my-5">
       <h1 className="font-bold text-5xl">Le QG</h1>
@@ -231,4 +231,4 @@ const LegalTerms = () => {
   );
 };
 
-export default LegalTerms;
+export default LegalNotice;

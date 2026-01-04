@@ -1,6 +1,6 @@
 import * as React from "react";
 
-const PrivacyPolicy = () => {
+const DataProtection = () => {
   return (
     <div className="container mx-auto my-5">
       <h1 className="font-bold text-5xl">Le QG</h1>
@@ -231,4 +231,4 @@ const PrivacyPolicy = () => {
   );
 };
 
-export default PrivacyPolicy;
+export default DataProtection;

@@ -1,9 +1,8 @@
 import { useRef, useMemo, useEffect, useContext } from "react";
-import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
+import mapboxgl from "mapbox-gl";
+import { StoreContext } from "../contexts/StoreContext";
 
-import { StoreContext } from "./Map";
-
-mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_TOKEN;
+mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_TOKEN;
 
 function Mapbox() {
   const mapContainer = useRef(null);
